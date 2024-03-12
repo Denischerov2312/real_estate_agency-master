@@ -1,10 +1,12 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 class Flat(models.Model):
     #новые
     new_building = models.BooleanField(blank=True, default=None, null=True)
+    liked_by = models.ManyToManyField(User, related_name='liked_flats', verbose_name='Кто лайкнул')
     #были
     owner = models.CharField('ФИО владельца', max_length=200)
     owners_phonenumber = models.CharField('Номер владельца', max_length=20)
@@ -48,3 +50,11 @@ class Flat(models.Model):
 
     def __str__(self):
         return f'{self.town}, {self.address} ({self.price}р.)'
+
+
+class Complaint(User):
+    who_complained = models.ForeignKey(Flat, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Кто пожаловался')
+    flat_adress = models.IntegerField('Квартира, на которую пожаловались',
+                                      help_text='ул. Подольских курсантов д.5 кв.4'
+                                      )
+    text = models.TextField('Текст жалобы')
