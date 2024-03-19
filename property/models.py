@@ -52,9 +52,8 @@ class Flat(models.Model):
         return f'{self.town}, {self.address} ({self.price}р.)'
 
 
-class Complaint(User):
-    who_complained = models.ForeignKey(Flat, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Кто пожаловался')
-    flat_adress = models.IntegerField('Квартира, на которую пожаловались',
-                                      help_text='ул. Подольских курсантов д.5 кв.4'
-                                      )
+class Complaint(models.Model):
+    who_complained = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, default=None,
+                                        verbose_name='Кто пожаловался')
+    flat_adress = models.ForeignKey(Flat, on_delete=models.CASCADE, verbose_name='Адрес квартиры')
     text = models.TextField('Текст жалобы')
