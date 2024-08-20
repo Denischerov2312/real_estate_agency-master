@@ -16,7 +16,7 @@ def show_flats(request):
     min_price = format_price(request.GET.get('min_price'))
     max_price = format_price(request.GET.get('max_price'))
     new_building = request.GET.get('new_building') == '1'
-    rooms_number = request.GET.get('rooms_number')
+    active = request.GET.get('active') == '1'
 
     flats = Flat.objects.all()
     if town:
@@ -27,9 +27,8 @@ def show_flats(request):
         flats = flats.filter(price__lt=max_price)
     if new_building:
         flats = flats.filter(new_building=True)
-    if rooms_number:
-        flats = flats.filter(rooms_number=rooms_number)
-
+    if active:
+        flats = flats.filter(active=True)
     towns = Flat.objects.values_list(
         'town', flat=True).distinct().order_by('town')
     return render(request, 'flats_list.html', {
@@ -39,4 +38,5 @@ def show_flats(request):
         'max_price': max_price,
         'min_price': min_price,
         'new_building': new_building,
-        'rooms_number': rooms_number})
+        'active': active,
+        })
