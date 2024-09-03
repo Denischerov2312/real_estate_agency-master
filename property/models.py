@@ -60,10 +60,16 @@ class Owner(models.Model):
                                         blank=True, verbose_name='Нормализированный номер владельца')
     flats = models.ManyToManyField(Flat, related_name='owners', verbose_name='Квартиры в собственности', db_index=True)
 
+    def __str__(self):
+        return f'{self.name}, {self.phonenumber}'
+
 
 class Complaint(models.Model):
     who_complained = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,
-                                       blank=True, verbose_name='Кто пожаловался')
-    flat_adress = models.ForeignKey(Flat, on_delete=models.SET_NULL, null=True,
-                                    blank=True, verbose_name='Квартира, на которую пожаловались')
+                                       blank=True, verbose_name='Кто пожаловался', related_name='user')
+    adress = models.ForeignKey(Flat, on_delete=models.SET_NULL, null=True,
+                                    blank=True, verbose_name='Квартира, на которую пожаловались', related_name='flat')
     text = models.TextField('Текст жалобы')
+
+    def __str__(self):
+        return f'{self.who_complained}, {self.adress}'
