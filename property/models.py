@@ -65,10 +65,11 @@ class Owner(models.Model):
 
 class Complaint(models.Model):
     who_complained = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,
-                                       blank=True, verbose_name='Кто пожаловался', related_name='user_complaints')
-    adress = models.ForeignKey(Flat, on_delete=models.SET_NULL, null=True,
-                                    blank=True, verbose_name='Квартира, на которую пожаловались',)
+                                       blank=True, verbose_name='Кто пожаловался', related_name='complaints')
+    address = models.ForeignKey(Flat, on_delete=models.SET_NULL, null=True,
+                                    blank=True, verbose_name='Квартира, на которую пожаловались',
+                                    related_name='complaints')
     text = models.TextField('Текст жалобы')
 
     def __str__(self):
-        return f'{self.who_complained}, {self.adress}'
+        return f'{self.who_complained}, {self.address}'
