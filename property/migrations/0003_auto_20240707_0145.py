@@ -17,9 +17,4 @@ class Migration(migrations.Migration):
             name='liked_by',
             field=models.ManyToManyField(related_name='liked_flats', to=settings.AUTH_USER_MODEL, verbose_name='Кто лайкнул'),
         ),
-        migrations.AddField(
-            model_name='flat',
-            name='new_building',
-            field=models.BooleanField(blank=True, null=True, verbose_name='Новостройка'),
-        ),
     ]
