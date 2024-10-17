@@ -8,13 +8,13 @@ from phonenumbers import is_valid_number
 
 def parse_phonenumber(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for obj in list(Flat.objects.all()):
-        num = parse(obj.owners_phonenumber, 'RU')
+    for flat in Flat.objects.all():
+        num = parse(flat.owners_phonenumber, 'RU')
         if is_valid_number(num):
-            obj.owner_pure_phone = num
+            flat.owner_pure_phone = num
         else:
-            obj.owner_pure_phone = None
-        obj.save()
+            flat.owner_pure_phone = None
+        flat.save()
 
 
 class Migration(migrations.Migration):

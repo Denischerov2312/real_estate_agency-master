@@ -6,10 +6,10 @@ from django.db import migrations
 def relocate_number(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     Owner = apps.get_model('property', 'Owner')
-    for obj in list(Flat.objects.all()):
-        Owner.objects.get_or_create(name=obj.owner,
-                                    phonenumber=obj.owners_phonenumber,
-                                    pure_phonenumber=obj.owner_pure_phone,
+    for flat in Flat.objects.all():
+        Owner.objects.get_or_create(name=flat.owner,
+                                    phonenumber=flat.owners_phonenumber,
+                                    pure_phonenumber=flat.owner_pure_phone,
                                     )
 
 
